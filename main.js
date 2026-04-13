@@ -7,6 +7,7 @@ const path = require('path');
 class ClaudeSelectionPlugin extends obsidian.Plugin {
   async onload() {
     this.lastSelection = '';
+    this.noticedSelection = '';
     this.filePath = path.join(this.app.vault.adapter.basePath, '.claude-selection');
 
     // Keep selection highlight visible when editor loses focus
@@ -32,6 +33,8 @@ class ClaudeSelectionPlugin extends obsidian.Plugin {
       if (!this.lastSelection) return;
       const editorEl = this.app.workspace.getActiveViewOfType(obsidian.MarkdownView)?.containerEl;
       if (editorEl && editorEl.contains(e.target)) return; // clicked inside editor, ignore
+      if (this.noticedSelection === this.lastSelection) return; // already shown for this selection
+      this.noticedSelection = this.lastSelection;
       const lineCount = this.lastSelection.split('\n').length;
       new obsidian.Notice(`✦ ${lineCount} line${lineCount === 1 ? '' : 's'} of context active`, 3000);
     });
@@ -49,6 +52,7 @@ class ClaudeSelectionPlugin extends obsidian.Plugin {
       if (this.lastSelection !== '') {
         this.statusBar.setText('claude: no selection');
         this.lastSelection = '';
+        this.noticedSelection = '';
       }
       return;
     }
