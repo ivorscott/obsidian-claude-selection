@@ -25,7 +25,38 @@ This lets you highlight a passage in your notes, switch to the terminal, and ask
 
 ## Setup
 
-Add a `UserPromptSubmit` hook to your Claude Code `settings.json` to inject the selection automatically:
+The hook requires two files inside your vault:
+
+**1. Create `.claude/hooks/inject-selection.py`:**
+
+```python
+#!/usr/bin/env python3
+import sys, os
+
+selection_file = os.path.join(os.getcwd(), '.claude-selection')
+
+if not os.path.isfile(selection_file):
+    sys.exit(0)
+
+try:
+    with open(selection_file, 'r', encoding='utf-8') as f:
+        content = f.read().strip()
+except Exception as e:
+    print(f'claude-selection hook error: {e}', file=sys.stderr)
+    sys.exit(0)
+
+if not content:
+    sys.exit(0)
+
+parts = content.split('---\n', 1)
+selected_text = parts[1].strip() if len(parts) > 1 else content
+line_count = len(selected_text.splitlines())
+sys.stderr.write(f'> {line_count} line{"s" if line_count != 1 else ""} of Obsidian context\n')
+
+print(f'The user has selected the following text from their Obsidian notes:\n\n{content}')
+```
+
+**2. Create or update `.claude/settings.json`:**
 
 ```json
 {
@@ -36,7 +67,7 @@ Add a `UserPromptSubmit` hook to your Claude Code `settings.json` to inject the 
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'FILE=\"$VAULT/.claude-selection\"; [ -f \"$FILE\" ] && echo \"<system-reminder>\\nThe user has selected the following text from their Obsidian notes:\\n\\n$(cat \"$FILE\")\\n</system-reminder>\" || true'"
+            "command": "python3 .claude/hooks/inject-selection.py"
           }
         ]
       }
@@ -45,7 +76,7 @@ Add a `UserPromptSubmit` hook to your Claude Code `settings.json` to inject the 
 }
 ```
 
-Replace `$VAULT` with the absolute path to your vault.
+Open Claude Code from your vault root so the hook can locate `.claude-selection` correctly.
 
 ## Status bar
 
