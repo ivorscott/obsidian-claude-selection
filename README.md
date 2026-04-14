@@ -17,6 +17,12 @@ This lets you highlight a passage in your notes, switch to the terminal, and ask
 3. Paste `https://github.com/ivorscott/obsidian-claude-selection`
 4. Enable **Claude Selection** in Settings > Community Plugins
 
+### Manual
+
+1. Download `main.js` and `manifest.json` from the [latest release](https://github.com/ivorscott/obsidian-claude-selection/releases)
+2. Copy both files to `.obsidian/plugins/claude-selection/` inside your vault
+3. Enable **Claude Selection** in Settings > Community Plugins
+
 ### Via Claude Code
 
 Install the [cc-marketplace](https://github.com/ivorscott/cc-marketplace) plugin
@@ -30,12 +36,6 @@ and run one command from your vault directory:
 
 This installs BRAT, obsidian-terminal, and configures everything automatically.
 Restart Obsidian after — BRAT will download and enable this plugin on startup.
-
-### Manual
-
-1. Download `main.js` and `manifest.json` from the [latest release](https://github.com/ivorscott/obsidian-claude-selection/releases)
-2. Copy both files to `.obsidian/plugins/claude-selection/` inside your vault
-3. Enable **Claude Selection** in Settings > Community Plugins
 
 ## Setup
 
