@@ -10,23 +10,30 @@ This lets you highlight a passage in your notes, switch to the terminal, and ask
 
 ## Installation
 
-### Via BRAT (recommended)
+There are 3 ways to install. Options 1 and 2 require completing the [Setup](#setup) section afterwards. Option 3 automates setup entirely.
+
+### Option 1 — Via BRAT (recommended)
 
 1. Install [BRAT](https://github.com/TfTHacker/obsidian42-brat) from the Obsidian community plugins browser
 2. Open BRAT settings and click **Add Beta Plugin**
 3. Paste `https://github.com/ivorscott/obsidian-claude-selection`
 4. Enable **Claude Selection** in Settings > Community Plugins
 
-### Manual
+Then complete the [Setup](#setup) section below.
+
+### Option 2 — Manual
 
 1. Download `main.js` and `manifest.json` from the [latest release](https://github.com/ivorscott/obsidian-claude-selection/releases)
 2. Copy both files to `.obsidian/plugins/claude-selection/` inside your vault
 3. Enable **Claude Selection** in Settings > Community Plugins
 
-### Via Claude Code
+Then complete the [Setup](#setup) section below.
 
-Install the [cc-marketplace](https://github.com/ivorscott/cc-marketplace) plugin
-and run one command from your vault directory:
+### Option 3 — Via Claude Code
+
+Automates the full setup — no manual steps required.
+
+Install the [cc-marketplace](https://github.com/ivorscott/cc-marketplace) plugin and run one command from your vault directory:
 
 ```
 /plugin marketplace add ivorscott/cc-marketplace
@@ -34,10 +41,12 @@ and run one command from your vault directory:
 /install-obsidian
 ```
 
-This installs BRAT, obsidian-terminal, and configures everything automatically.
+This installs BRAT, obsidian-terminal, and the Claude Code hook files automatically.
 Restart Obsidian after — BRAT will download and enable this plugin on startup.
 
 ## Setup
+
+> **Skip this section if you used Option 3** — it was handled automatically.
 
 The hook requires two files inside your vault:
 
