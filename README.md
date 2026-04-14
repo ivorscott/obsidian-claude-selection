@@ -1,16 +1,14 @@
 # Claude Selection
 
-An [Obsidian](https://obsidian.md) plugin that captures your text selection and makes it available to [Claude Code](https://claude.ai/code) as context.
+Highlight text in Obsidian. Ask Claude Code about it — no copy-pasting.
 
-## How it works
+A Claude Code hook reads your active selection and injects it as context into every prompt, along with the source file path and line numbers. Switch to the terminal and ask Claude Code about any passage in your notes without leaving your flow.
 
-When you highlight text in Obsidian, the plugin writes the selection to a `.claude-selection` file at the root of your vault. A Claude Code hook reads that file and injects the selected text — along with the source file path and line numbers — into your Claude Code session automatically.
-
-This lets you highlight a passage in your notes, switch to the terminal, and ask Claude Code about it without any copy-pasting.
+**Requires:** Obsidian 1.0.0+ · Desktop only · [Claude Code](https://claude.ai/code) CLI
 
 ## Installation
 
-There are 3 ways to install. Options 1 and 2 require completing the [Setup](#setup) section afterwards. Option 3 automates setup entirely.
+**Option 3 is the quickest.** Options 1 and 2 require completing the [Setup](#setup) section afterwards; Option 3 automates it.
 
 ### Option 1 — Via BRAT (recommended)
 
@@ -52,6 +50,9 @@ The hook requires two files inside your vault:
 
 **1. Create `.claude/hooks/inject-selection.py`:**
 
+<details>
+<summary><strong>inject-selection.py</strong></summary>
+
 ```python
 #!/usr/bin/env python3
 import sys, os
@@ -79,6 +80,8 @@ sys.stderr.write(f'> {line_count} line{"s" if line_count != 1 else ""} of Obsidi
 print(f'The user has selected the following text from their Obsidian notes:\n\n{content}')
 ```
 
+</details>
+
 **2. Create or update `.claude/settings.json`:**
 
 ```json
@@ -99,20 +102,12 @@ print(f'The user has selected the following text from their Obsidian notes:\n\n{
 }
 ```
 
-Open Claude Code from your vault root so the hook can locate `.claude-selection` correctly.
+## Usage
 
-## Status bar
-
-The plugin adds an indicator to the Obsidian status bar:
+Open Claude Code from your vault root. Highlight any text in Obsidian — the status bar confirms the selection is active:
 
 - `claude: no selection` — nothing highlighted
-- `claude: 3 lines selected` — active selection being tracked
-
-## Requirements
-
-- Obsidian 1.0.0+
-- Desktop only
-- Claude Code CLI
+- `claude: 3 lines selected` — context will be injected into your next prompt
 
 ## License
 
