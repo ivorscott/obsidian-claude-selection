@@ -57,7 +57,8 @@ The hook requires two files inside your vault:
 #!/usr/bin/env python3
 import sys, os
 
-selection_file = os.path.join(os.getcwd(), '.claude-selection')
+project_dir = os.environ.get('CLAUDE_PROJECT_DIR', os.getcwd())
+selection_file = os.path.join(project_dir, '.claude-selection')
 
 if not os.path.isfile(selection_file):
     sys.exit(0)
@@ -93,7 +94,7 @@ print(f'The user has selected the following text from their Obsidian notes:\n\n{
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/inject-selection.py"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/inject-selection.py"
           }
         ]
       }
@@ -101,6 +102,8 @@ print(f'The user has selected the following text from their Obsidian notes:\n\n{
   }
 }
 ```
+
+> The command uses `$CLAUDE_PROJECT_DIR` (the vault root) instead of a relative path. Claude Code runs hooks from the session's current directory, so a relative path breaks with `can't open file` — blocking every prompt — as soon as the session `cd`s into a subfolder.
 
 ## Usage
 
